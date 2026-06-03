@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Suisse+Intl:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #1a1a18;
+      --paper: #f5f3ee;
+      --muted: #9a9890;
+      --accent: #1a1a18;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'Suisse Intl', 'Helvetica Neue', Helvetica, sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      overflow: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 40px;
+      mix-blend-mode: multiply;
+    }
+
+    .nav-name {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: 18px;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── SLIDESHOW ── */
+    .slideshow {
+      position: fixed;
+      inset: 0;
+      background: var(--paper);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.9s ease;
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .slide img {
+      max-width: 72vw;
+      max-height: 78vh;
+      object-fit: contain;
+      display: block;
+      /* placeholder tint until real images load */
+      background: #ddd;
+      min-width: 320px;
+      min-height: 240px;
+    }
+
+    /* placeholder colour blocks used as demo images */
+    .slide .placeholder {
+      width: 68vw;
+      max-width: 900px;
+      height: 70vh;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+      padding: 24px 32px;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 15px;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.03em;
+    }
+
+    /* ── CAPTION ── */
+    .caption {
+      position: fixed;
+      bottom: 40px;
+      left: 40px;
+      z-index: 50;
+      pointer-events: none;
+    }
+
+    .caption-title {
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: 0.02em;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.6s 0.3s, transform 0.6s 0.3s;
+    }
+
+    .caption-meta {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.6s 0.45s, transform 0.6s 0.45s;
+    }
+
+    .slide.active ~ .caption .caption-title,
+    .slide.active ~ .caption .caption-meta { opacity: 1; transform: none; }
+
+    /* caption tied to active slide via JS */
+    .caption.visible .caption-title,
+    .caption.visible .caption-meta { opacity: 1; transform: none; }
+
+    /* ── COUNTER ── */
+    .counter {
+      position: fixed;
+      bottom: 44px;
+      right: 40px;
+      z-index: 50;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── ARROWS ── */
+    .arrow {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 50;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 16px;
+      color: var(--muted);
+      transition: color 0.2s;
+      line-height: 1;
+    }
+    .arrow:hover { color: var(--ink); }
+    .arrow-prev { left: 20px; }
+    .arrow-next { right: 20px; }
+
+    .arrow svg { display: block; width: 20px; height: 20px; }
+
+    /* ── PROGRESS BAR ── */
+    .progress {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 1px;
+      background: var(--ink);
+      transition: width 0.4s ease;
+      z-index: 50;
+      opacity: 0.25;
+    }
+
+    /* ── THUMBNAIL STRIP ── */
+    .thumbs {
+      position: fixed;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      display: flex;
+      gap: 6px;
+    }
+
+    .thumb-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--muted);
+      cursor: pointer;
+      transition: background 0.25s, transform 0.25s;
+    }
+
+    .thumb-dot.active {
+      background: var(--ink);
+      transform: scale(1.5);
+    }
+
+    /* ── KEYBOARD HINT ── */
+    .hint {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 200;
+      text-align: center;
+      pointer-events: none;
+      animation: fadeHint 3s forwards;
+    }
+    .hint p {
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    @keyframes fadeHint {
+      0%   { opacity: 0; }
+      20%  { opacity: 1; }
+      70%  { opacity: 1; }
+      100% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-name" href="#">estellepi</a>
+    <ul class="nav-links">
+      <li><a href="#">Work</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="slideshow" id="slideshow"></div>
+
+  <div class="caption" id="caption">
+    <div class="caption-title" id="cap-title"></div>
+    <div class="caption-meta" id="cap-meta"></div>
+  </div>
+
+  <div class="counter" id="counter"></div>
+
+  <button class="arrow arrow-prev" id="prev" aria-label="Previous">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.2">
+      <path d="M13 4l-6 6 6 6"/>
+    </svg>
+  </button>
+  <button class="arrow arrow-next" id="next" aria-label="Next">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.2">
+      <path d="M7 4l6 6-6 6"/>
+    </svg>
+  </button>
+
+  <div class="progress" id="progress"></div>
+  <div class="thumbs" id="thumbs"></div>
+
+  <div class="hint" id="hint">
+    <p>← → to navigate &nbsp;·&nbsp; space to pause</p>
+  </div>
+
+  <script>
+    // ─────────────────────────────────────────────────────────────
+    // PHOTOS CONFIG
+    // Replace these entries with your real images.
+    // src: path to your image file (e.g. "images/photo1.jpg")
+    // title: caption shown bottom-left
+    // meta: location / year / series name
+    // ─────────────────────────────────────────────────────────────
+    const photos = [
+      {
+        src: "",
+        bg: "#c8c4bc",
+        title: "Golden hour",
+        meta: "Kyoto · 2024"
+      },
+      {
+        src: "",
+        bg: "#a8b4ae",
+        title: "Still water",
+        meta: "Lake Como · 2024"
+      },
+      {
+        src: "",
+        bg: "#b4a89a",
+        title: "Light and shadow",
+        meta: "Lisbon · 2023"
+      },
+      {
+        src: "",
+        bg: "#8c9aaa",
+        title: "Early morning",
+        meta: "Iceland · 2023"
+      },
+      {
+        src: "",
+        bg: "#c4b8a4",
+        title: "Solitude",
+        meta: "Patagonia · 2022"
+      },
+    ];
+
+    // ─────────────────────────────────────────────────────────────
+
+    const slideshow = document.getElementById('slideshow');
+    const thumbsEl  = document.getElementById('thumbs');
+    const counter   = document.getElementById('counter');
+    const capTitle  = document.getElementById('cap-title');
+    const capMeta   = document.getElementById('cap-meta');
+    const caption   = document.getElementById('caption');
+    const progress  = document.getElementById('progress');
+
+    let current = 0;
+    let autoTimer = null;
+    let paused = false;
+    const INTERVAL = 5000;
+
+    // Build slides
+    photos.forEach((p, i) => {
+      const slide = document.createElement('div');
+      slide.className = 'slide' + (i === 0 ? ' active' : '');
+      slide.dataset.index = i;
+
+      if (p.src) {
+        const img = document.createElement('img');
+        img.src = p.src;
+        img.alt = p.title;
+        slide.appendChild(img);
+      } else {
+        // Placeholder until real photos are added
+        const ph = document.createElement('div');
+        ph.className = 'placeholder';
+        ph.style.background = p.bg;
+        ph.textContent = p.title;
+        slide.appendChild(ph);
+      }
+
+      slideshow.appendChild(slide);
+
+      // Dot
+      const dot = document.createElement('div');
+      dot.className = 'thumb-dot' + (i === 0 ? ' active' : '');
+      dot.addEventListener('click', () => goTo(i));
+      thumbsEl.appendChild(dot);
+    });
+
+    const slides = document.querySelectorAll('.slide');
+    const dots   = document.querySelectorAll('.thumb-dot');
+
+    function goTo(n) {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = (n + photos.length) % photos.length;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+
+      const p = photos[current];
+      capTitle.textContent = p.title;
+      capMeta.textContent  = p.meta;
+      caption.classList.remove('visible');
+      void caption.offsetWidth; // reflow to restart transition
+      caption.classList.add('visible');
+
+      counter.textContent = `${String(current + 1).padStart(2,'0')} / ${String(photos.length).padStart(2,'0')}`;
+      progress.style.width = ((current + 1) / photos.length * 100) + '%';
+    }
+
+    function next() { goTo(current + 1); }
+    function prev() { goTo(current - 1); }
+
+    function startAuto() {
+      clearInterval(autoTimer);
+      if (!paused) autoTimer = setInterval(next, INTERVAL);
+    }
+
+    document.getElementById('next').addEventListener('click', () => { next(); startAuto(); });
+    document.getElementById('prev').addEventListener('click', () => { prev(); startAuto(); });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { next(); startAuto(); }
+      if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { prev(); startAuto(); }
+      if (e.key === ' ') {
+        e.preventDefault();
+        paused = !paused;
+        startAuto();
+      }
+    });
+
+    // Touch swipe
+    let touchX = null;
+    document.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; });
+    document.addEventListener('touchend', e => {
+      if (touchX === null) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 40) { dx < 0 ? next() : prev(); startAuto(); }
+      touchX = null;
+    });
+
+    // Init
+    goTo(0);
+    startAuto();
+
+    // Remove hint after animation
+    setTimeout(() => document.getElementById('hint').remove(), 3500);
+  </script>
+</body>
+</html>
