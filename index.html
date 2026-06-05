@@ -299,7 +299,7 @@
     <a href="#vintage">vintage vibes</a>
   </nav>
 
-  <div class="grid" id="grid"></div>
+ <div id="app"></div>
 
 
   <!-- Lightbox -->
@@ -383,6 +383,59 @@
   }
 ];
 
+    const app = document.getElementById("app");
+
+sections.forEach(section => {
+  // SECTION WRAPPER
+  const sectionEl = document.createElement("section");
+  sectionEl.id = section.id;
+
+  // HEADING
+  const heading = document.createElement("div");
+  heading.className = "section-heading";
+  heading.innerHTML = `<h2>${section.label}</h2>`;
+
+  // GRID
+  const grid = document.createElement("div");
+  grid.className = "grid";
+
+  section.photos.forEach(photo => {
+    const item = document.createElement("div");
+    item.className = "grid-item";
+
+    const hasImage = photo.src && photo.src.trim() !== "";
+
+    item.innerHTML = hasImage
+      ? `
+        <img src="${photo.src}" alt="${photo.title}">
+        <div class="overlay">
+          <div class="overlay-text">
+            <span class="o-title">${photo.title}</span>
+            <span class="o-meta">${photo.meta}</span>
+          </div>
+        </div>
+      `
+      : `
+        <div class="placeholder" style="--ratio:${photo.ratio}; background:${photo.bg}">
+          ${photo.title}
+        </div>
+        <div class="overlay">
+          <div class="overlay-text">
+            <span class="o-title">${photo.title}</span>
+            <span class="o-meta">${photo.meta}</span>
+          </div>
+        </div>
+      `;
+
+    grid.appendChild(item);
+  });
+
+  sectionEl.appendChild(heading);
+  sectionEl.appendChild(grid);
+  app.appendChild(sectionEl);
+});
+
+    
     // Flatten all photos for lightbox indexing
     const allPhotos = sections.flatMap(s => s.photos);
 
