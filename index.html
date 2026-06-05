@@ -96,11 +96,12 @@
 
     /* ── SECTION HEADING ── */
     .section-heading {
-      break-inside: avoid;
-      margin-bottom: 12px;
-      padding: 28px 0 8px;
-      column-span: all;
-    }
+  margin-bottom: 12px;
+  padding: 28px 0 8px;
+  width: 100%;
+  break-inside: avoid;
+  column-span: all;
+}
 
     .section-heading h2 {
       font-family: 'Jost', sans-serif;
@@ -113,21 +114,15 @@
 
     /* ── MASONRY GRID ── */
     .grid {
-      padding: 32px 40px 80px;
-      columns: 3;
-      column-gap: 24px;
-    }
+  padding: 32px 40px 80px;
+  columns: 3;
+  column-gap: 24px;
+}
 
     @media (max-width: 900px) { .grid { columns: 2; } }
     @media (max-width: 560px) { .grid { columns: 1; padding: 20px; } }
 
-    section {
-  padding: 0 40px;
-}
-
-.grid {
-  padding: 32px 0 80px;
-}
+   
 
     .grid-item {
       break-inside: avoid;
