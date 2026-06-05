@@ -1,53 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>estellepi</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>estellepi</title>
 
-    :root {
-      --ink: #1a1a18;
-      --paper: #f5f3ee;
-      --muted: #9a9890;
-      --serif: 'Jost', sans-serif;
-      --sans: 'DM Sans', sans-serif;
-    }
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400&family=Jost:wght@300;400&display=swap" rel="stylesheet"/>
 
-    html { scroll-behavior: smooth; }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    body {
-      background: var(--paper);
-      color: var(--ink);
-      font-family: var(--sans);
-      font-weight: 300;
-      min-height: 100vh;
-    }
+:root {
+  --ink: #1a1a18;
+  --paper: #f5f3ee;
+  --muted: #9a9890;
+  --sans: "DM Sans", sans-serif;
+  --serif: "Jost", sans-serif;
+}
 
-    /* ── NAV ── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 24px 40px;
-      background: var(--paper);
-      border-bottom: 0.5px solid rgba(26,26,24,0.1);
-    }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+}
 
-    .nav-name {
-      font-family: var(--serif);
-      font-weight: 300;
-      font-size: 20px;
-      letter-spacing: 0.04em;
-      color: var(--ink);
-      text-decoration: none;
-    }
+/* ── NAV ── */
+nav {
+  position: sticky;
+  top: 0;
+  background: var(--paper);
+  padding: 24px 40px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  z-index: 10;
+}
+
+.nav-name {
+  font-family: var(--serif);
+  text-decoration: none;
+  color: var(--ink
 
     .nav-links {
       display: flex;
