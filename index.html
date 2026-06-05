@@ -112,15 +112,18 @@
     }
 
     /* ── MASONRY GRID ── */
-   .grid {
-  padding: 32px 40px 80px;
-  columns: 3;
-  column-gap: 24px;
-}
+    .grid {
+      padding: 32px 40px 80px;
+      columns: 3;
+      column-gap: 12px;
+    }
 
-.grid-item {
-  margin-bottom: 24px;
-}
+    @media (max-width: 900px) { .grid { columns: 2; } }
+    @media (max-width: 560px) { .grid { columns: 1; padding: 20px; } }
+
+    .grid-item {
+      break-inside: avoid;
+      margin-bottom: 12px;
       position: relative;
       cursor: pointer;
       overflow: hidden;
@@ -353,9 +356,10 @@
         id: "clarke-quay",
         label: "clarke quay on sony",
         photos: [
-          { src: "clarkequay1.PNG", ratio: "1/1",  title: "shops beside the singapore river",              meta: "clarke-quay" },
-          { src: "clarkequay2.PNG", ratio: "1/1",  title: "funanr",              meta: "clarke-quay" },
-          { src: "clarkequay3.PNG", ratio: "1/1",  title: "golden boats",              meta: "clarke-quay" },
+          { src: "", bg: "#c4a890", ratio: "4/3",  title: "Neon reflection", meta: "Clarke Quay · 2024" },
+          { src: "", bg: "#a89080", ratio: "2/3",  title: "Riverside",       meta: "Clarke Quay · 2024" },
+          { src: "", bg: "#b8a898", ratio: "3/4",  title: "Night crowd",     meta: "Clarke Quay · 2024" },
+          { src: "", bg: "#ccc0b0", ratio: "1/1",  title: "Lanterns",        meta: "Clarke Quay · 2024" },
         ]
       },
       {
