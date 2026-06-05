@@ -113,17 +113,11 @@
 
     /* ── MASONRY GRID ── */
     .grid {
-      padding: 32px 40px 80px;
-      columns: 3;
-      column-gap: 12px;
-    }
-
-    @media (max-width: 900px) { .grid { columns: 2; } }
-    @media (max-width: 560px) { .grid { columns: 1; padding: 20px; } }
-
-    .grid-item {
-      break-inside: avoid;
-      margin-bottom: 12px;
+  padding: 32px 40px 80px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
       position: relative;
       cursor: pointer;
       overflow: hidden;
