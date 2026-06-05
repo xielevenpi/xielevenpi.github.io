@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>estellepi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -13,8 +13,8 @@
       --ink: #1a1a18;
       --paper: #f5f3ee;
       --muted: #9a9890;
-      --serif: 'Cormorant Garamond', Georgia, serif;
-      --sans: 'Helvetica Neue', Helvetica, sans-serif;
+      --serif: 'Jost', sans-serif;
+      --sans: 'DM Sans', sans-serif;
     }
 
     html { scroll-behavior: smooth; }
@@ -56,15 +56,60 @@
     }
 
     .nav-links a {
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.06em;
       color: var(--muted);
       text-decoration: none;
       transition: color 0.2s;
     }
 
     .nav-links a:hover { color: var(--ink); }
+
+    /* ── SECTION NAV ── */
+    .section-nav {
+      position: sticky;
+      top: 73px;
+      z-index: 90;
+      background: var(--paper);
+      border-bottom: 0.5px solid rgba(26,26,24,0.08);
+      padding: 0 40px;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .section-nav::-webkit-scrollbar { display: none; }
+
+    .section-nav a {
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 14px 20px 12px;
+      white-space: nowrap;
+      border-bottom: 1.5px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .section-nav a:hover { color: var(--ink); }
+    .section-nav a.active { color: var(--ink); border-bottom-color: var(--ink); }
+
+    /* ── SECTION HEADING ── */
+    .section-heading {
+      break-inside: avoid;
+      margin-bottom: 12px;
+      padding: 28px 0 8px;
+      column-span: all;
+    }
+
+    .section-heading h2 {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 22px;
+      letter-spacing: 0.01em;
+      color: var(--ink);
+      line-height: 1;
+    }
 
     /* ── MASONRY GRID ── */
     .grid {
@@ -123,9 +168,9 @@
     .grid-item:hover .overlay { opacity: 1; }
 
     .overlay-text .o-title {
-      font-family: var(--serif);
-      font-size: 16px;
-      font-style: italic;
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 300;
       color: #f5f3ee;
       display: block;
       line-height: 1.3;
@@ -133,8 +178,7 @@
 
     .overlay-text .o-meta {
       font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
+      letter-spacing: 0.06em;
       color: rgba(245,243,238,0.65);
       display: block;
       margin-top: 2px;
@@ -181,9 +225,8 @@
     }
 
     .lb-caption .lb-title {
-      font-family: var(--serif);
-      font-size: 20px;
-      font-style: italic;
+      font-family: var(--sans);
+      font-size: 18px;
       font-weight: 300;
       color: #f5f3ee;
       letter-spacing: 0.02em;
@@ -191,8 +234,7 @@
 
     .lb-caption .lb-meta {
       font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
+      letter-spacing: 0.06em;
       color: rgba(245,243,238,0.5);
       margin-top: 4px;
     }
@@ -244,13 +286,21 @@
   <nav>
     <a class="nav-name" href="#">estellepi</a>
     <ul class="nav-links">
-      <li><a href="#">Work</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Contact</a></li>
+      <li><a href="#">work</a></li>
+      <li><a href="#">about</a></li>
+      <li><a href="#">contact</a></li>
     </ul>
   </nav>
 
+  <nav class="section-nav" id="section-nav">
+    <a href="#okinawa">okinawa on iphone</a>
+    <a href="#clarke-quay">clarke quay on sony</a>
+    <a href="#cbd">cbd</a>
+    <a href="#vintage">vintage vibes</a>
+  </nav>
+
   <div class="grid" id="grid"></div>
+
 
   <!-- Lightbox -->
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
@@ -278,17 +328,61 @@
     // ratio: controls height in grid — try "3/4" (portrait),
     //        "4/3" (landscape), "1/1" (square), "2/3" (tall)
     // ─────────────────────────────────────────────────────────────
-    const photos = [
-      { src: "", bg: "#b8b0a4", ratio: "2/3",  title: "Golden hour",    meta: "Kyoto · 2024" },
-      { src: "", bg: "#a0aaa4", ratio: "4/3",  title: "Still water",    meta: "Lake Como · 2024" },
-      { src: "", bg: "#c4b49c", ratio: "1/1",  title: "Light & shadow", meta: "Lisbon · 2023" },
-      { src: "", bg: "#8c9cac", ratio: "3/4",  title: "Early morning",  meta: "Iceland · 2023" },
-      { src: "", bg: "#b4b8a8", ratio: "4/3",  title: "Solitude",       meta: "Patagonia · 2022" },
-      { src: "", bg: "#a8a09c", ratio: "2/3",  title: "Narrow street",  meta: "Naples · 2023" },
-      { src: "", bg: "#c0b8ac", ratio: "1/1",  title: "Rooftop",        meta: "Tokyo · 2024" },
-      { src: "", bg: "#9cb0b8", ratio: "4/3",  title: "Coastline",      meta: "Algarve · 2022" },
+    // ─────────────────────────────────────────────────────────────
+    // SECTIONS CONFIG
+    // Each section has an id (matches href in nav), a label, and photos.
+    // For each photo:
+    //   src:   e.g. "images/photo.jpg" (leave "" for placeholder)
+    //   title: shown on hover + lightbox
+    //   meta:  shown in lightbox
+    //   ratio: "2/3" tall | "3/4" portrait | "1/1" square | "4/3" landscape
+    // ─────────────────────────────────────────────────────────────
+    const sections = [
+      {
+        id: "okinawa",
+        label: "okinawa on iphone",
+        photos: [
+          { src: "", bg: "#b8ccc4", ratio: "3/4",  title: "Coral bay",      meta: "Okinawa · 2024" },
+          { src: "", bg: "#a4c0b8", ratio: "4/3",  title: "Beach shack",    meta: "Okinawa · 2024" },
+          { src: "", bg: "#c8d4cc", ratio: "1/1",  title: "Sea glass",      meta: "Okinawa · 2024" },
+          { src: "", bg: "#90b0a8", ratio: "2/3",  title: "Evening tide",   meta: "Okinawa · 2024" },
+        ]
+      },
+      {
+        id: "clarke-quay",
+        label: "clarke quay on sony",
+        photos: [
+          { src: "", bg: "#c4a890", ratio: "4/3",  title: "Neon reflection", meta: "Clarke Quay · 2024" },
+          { src: "", bg: "#a89080", ratio: "2/3",  title: "Riverside",       meta: "Clarke Quay · 2024" },
+          { src: "", bg: "#b8a898", ratio: "3/4",  title: "Night crowd",     meta: "Clarke Quay · 2024" },
+          { src: "", bg: "#ccc0b0", ratio: "1/1",  title: "Lanterns",        meta: "Clarke Quay · 2024" },
+        ]
+      },
+      {
+        id: "cbd",
+        label: "cbd",
+        photos: [
+          { src: "", bg: "#9aa4b0", ratio: "2/3",  title: "Glass towers",   meta: "Singapore · 2024" },
+          { src: "", bg: "#b0bcc8", ratio: "4/3",  title: "Lunchtime",      meta: "Singapore · 2024" },
+          { src: "", bg: "#8898a8", ratio: "1/1",  title: "Shadow play",    meta: "Singapore · 2024" },
+          { src: "", bg: "#a4b4c0", ratio: "3/4",  title: "Underpass",      meta: "Singapore · 2024" },
+        ]
+      },
+      {
+        id: "vintage",
+        label: "vintage vibes",
+        photos: [
+          { src: "", bg: "#c4b49c", ratio: "3/4",  title: "Grain & light",  meta: "2023" },
+          { src: "", bg: "#b8a888", ratio: "1/1",  title: "Faded film",     meta: "2023" },
+          { src: "", bg: "#ccc0a4", ratio: "4/3",  title: "Warm tones",     meta: "2022" },
+          { src: "", bg: "#b0a090", ratio: "2/3",  title: "Old town",       meta: "2022" },
+        ]
+      },
     ];
     // ─────────────────────────────────────────────────────────────
+
+    // Flatten all photos for lightbox indexing
+    const allPhotos = sections.flatMap(s => s.photos);
 
     const grid = document.getElementById('grid');
     const lightbox = document.getElementById('lightbox');
@@ -298,35 +392,62 @@
     const lbCounter = document.getElementById('lb-counter');
 
     let current = 0;
+    let globalIndex = 0;
 
-    // Build grid
-    photos.forEach((p, i) => {
-      const item = document.createElement('div');
-      item.className = 'grid-item';
+    // Build grid with section headings
+    sections.forEach(section => {
+      // Section anchor + heading
+      const heading = document.createElement('div');
+      heading.className = 'section-heading';
+      heading.id = section.id;
+      heading.innerHTML = `<h2>${section.label}</h2>`;
+      grid.appendChild(heading);
 
-      if (p.src) {
-        const img = document.createElement('img');
-        img.src = p.src;
-        img.alt = p.title;
-        img.loading = 'lazy';
-        item.appendChild(img);
-      } else {
-        const ph = document.createElement('div');
-        ph.className = 'placeholder';
-        ph.style.background = p.bg;
-        ph.style.setProperty('--ratio', p.ratio);
-        ph.textContent = p.title;
-        item.appendChild(ph);
-      }
+      section.photos.forEach(p => {
+        const idx = globalIndex++;
+        const item = document.createElement('div');
+        item.className = 'grid-item';
 
-      const overlay = document.createElement('div');
-      overlay.className = 'overlay';
-      overlay.innerHTML = `<div class="overlay-text"><span class="o-title">${p.title}</span><span class="o-meta">${p.meta}</span></div>`;
-      item.appendChild(overlay);
+        if (p.src) {
+          const img = document.createElement('img');
+          img.src = p.src;
+          img.alt = p.title;
+          img.loading = 'lazy';
+          item.appendChild(img);
+        } else {
+          const ph = document.createElement('div');
+          ph.className = 'placeholder';
+          ph.style.background = p.bg;
+          ph.style.setProperty('--ratio', p.ratio);
+          ph.textContent = p.title;
+          item.appendChild(ph);
+        }
 
-      item.addEventListener('click', () => openLightbox(i));
-      grid.appendChild(item);
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        overlay.innerHTML = `<div class="overlay-text"><span class="o-title">${p.title}</span><span class="o-meta">${p.meta}</span></div>`;
+        item.appendChild(overlay);
+
+        item.addEventListener('click', () => openLightbox(idx));
+        grid.appendChild(item);
+      });
     });
+
+    // Highlight active section nav link on scroll
+    const sectionEls = sections.map(s => document.getElementById(s.id));
+    const navLinks = document.querySelectorAll('.section-nav a');
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(a => a.classList.remove('active'));
+          const link = document.querySelector(`.section-nav a[href="#${entry.target.id}"]`);
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+
+    sectionEls.forEach(el => { if (el) observer.observe(el); });
 
     function openLightbox(i) {
       current = i;
@@ -341,7 +462,7 @@
     }
 
     function renderLightbox() {
-      const p = photos[current];
+      const p = allPhotos[current];
       lbImgWrap.innerHTML = '';
 
       if (p.src) {
@@ -358,11 +479,11 @@
 
       lbTitle.textContent = p.title;
       lbMeta.textContent  = p.meta;
-      lbCounter.textContent = `${String(current + 1).padStart(2,'0')} / ${String(photos.length).padStart(2,'0')}`;
+      lbCounter.textContent = `${String(current + 1).padStart(2,'0')} / ${String(allPhotos.length).padStart(2,'0')}`;
     }
 
-    function prevPhoto() { current = (current - 1 + photos.length) % photos.length; renderLightbox(); }
-    function nextPhoto() { current = (current + 1) % photos.length; renderLightbox(); }
+    function prevPhoto() { current = (current - 1 + allPhotos.length) % allPhotos.length; renderLightbox(); }
+    function nextPhoto() { current = (current + 1) % allPhotos.length; renderLightbox(); }
 
     document.getElementById('lb-close').addEventListener('click', closeLightbox);
     document.getElementById('lb-prev').addEventListener('click', prevPhoto);
