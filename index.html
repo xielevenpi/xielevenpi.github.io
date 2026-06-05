@@ -112,11 +112,14 @@
     }
 
     /* ── MASONRY GRID ── */
-    .grid {
+   .grid {
   padding: 32px 40px 80px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  columns: 3;
+  column-gap: 24px;
+}
+
+.grid-item {
+  margin-bottom: 24px;
 }
       position: relative;
       cursor: pointer;
